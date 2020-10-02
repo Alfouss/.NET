@@ -3,7 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 
 namespace ProjetDLL.Encapsulation
-{
+{  
+    [Serializable]
     public class CompteBancaire
     {
 
@@ -41,7 +42,8 @@ namespace ProjetDLL.Encapsulation
                     Console.WriteLine("Retrait autorisé");
                 }
                 else {
-                    Console.WriteLine("Vous n'avez aps assez de fond");
+
+                throw new SoldeException("Vous n'avez aps assez de fond");
             }
         }
 
@@ -50,6 +52,23 @@ namespace ProjetDLL.Encapsulation
         public override string ToString()
         {
             return "Compte numero: " + Numero + " Solde " + Solde;
+        }
+
+
+
+        //Comparaison de 2 objet du type compteBancaire
+        public override bool Equals(object obj)
+        {
+            return obj is CompteBancaire bancaire &&
+                   Solde == bancaire.Solde &&
+                   Numero == bancaire.Numero;
+        }
+
+        public bool Egale(object obj)
+        {
+            CompteBancaire b = (CompteBancaire)obj; 
+                return Solde == b.Solde &&
+                   Numero == b.Numero;
         }
     }
 }

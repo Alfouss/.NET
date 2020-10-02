@@ -15,7 +15,7 @@ namespace TP_POO
 
         public Producteur(string nom, string prenom, int age, string entree, double unite) : base(nom, prenom, age, entree)
         {
-            Console.WriteLine("Nom: " + Nom);
+            this.unite = unite;
         }
 
 

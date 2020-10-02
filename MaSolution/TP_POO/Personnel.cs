@@ -9,7 +9,7 @@ namespace TP_POO
     public class Personnel 
     {
         List<Employe> employeeColl = new List<Employe>();
-        private double somme = 0;
+        
 
         public Personnel()
         {
@@ -20,7 +20,6 @@ namespace TP_POO
         {
             foreach (var item in employeeColl)
             {
-                somme += item.CalculerSalaire();
                 Console.WriteLine("L'employe " + item.Nom + " a un salaire de " + item.CalculerSalaire());
             }
         }
@@ -34,6 +33,12 @@ namespace TP_POO
 
         public double SalaireMoyen()
         {
+            double somme = 0;
+            foreach (var item in employeeColl)
+            {
+                somme += item.CalculerSalaire();
+            }
+
             Console.WriteLine(somme / employeeColl.Count);
             return somme/employeeColl.Count;
         }

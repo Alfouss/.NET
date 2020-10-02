@@ -11,7 +11,10 @@ using ProjetDLL.Abstraction;
 using ProjetDLL.Agregation;
 using ProjetDLL.Encapsulation;
 using ProjetDLL.Heritage;
+using ProjetDLL.Exceptions.Exo;
 using ProjetDLL.Interface;
+using System.IO;
+using System.Security.AccessControl;
 
 namespace ProjetConsole
 {
@@ -26,6 +29,9 @@ namespace ProjetConsole
             VENDREDI = 5
         }
 
+        //Une structure ne peut pas herite d'une classe ou d'une aute structure
+        //A une zone de stockage limite
+        //Une classe a un stockage de type reference
         struct Fournisseur
         {
            public int id;
@@ -531,7 +537,7 @@ namespace ProjetConsole
 
 
             CompteBancaire cpt = new CompteBancaire(1225222, 1500);
-            cpt.Depot(50000);
+            cpt.Depot(5000);
             cpt.Retrait(1000);
 
             CompteBancaire cpt2 = new CompteBancaire(588988);
@@ -544,6 +550,9 @@ namespace ProjetConsole
             Chien a1 = new Chien();
             Chat a2 = new Chat();
             Animal a3 = new Animal("cdscds", 4);
+
+            //Animal est polymorphe/polymorphique/polymorphisme car elle accepte d'autre classes dans la variable initialiser
+            Animal anim2 = new Chien();
 
 
             //Polyphormise objet prend autre objet sans avoir un type identique.
@@ -568,7 +577,7 @@ namespace ProjetConsole
             //ProduitImpl pImpl = new ProduitImpl();
             //pImpl.FindById(5);
 
-            //Agregation 
+            //Agregation association d'un objet a un attribut d'une classe
             Salarie salarie = new Salarie();
             Adresse adr = new Adresse { Numero = 10, Street = "Rue de Paris 75010"};
 
@@ -577,6 +586,249 @@ namespace ProjetConsole
             salarie.Salaire = 1000;
 
             #endregion
+
+            #region Les exceptions
+            //Un evenement(une erreur) qui provoque l'arret de l'application
+            //Pour gerer une exception on utilise le bloc try - catch
+          
+
+            try
+            {
+                //int monInt = 10;
+                //Console.WriteLine(monInt / 0);
+
+                //int[] monTableau = { 1, 2 };
+                //Console.WriteLine(monTableau[2]);
+
+                //string maChaine5 = null;
+                //Console.WriteLine(maChaine5.Length);
+
+                cpt.Retrait(90000);
+
+            }
+            catch (Exception e)
+            {
+                
+                Console.WriteLine(e.Message);
+
+            }
+            finally
+            {
+
+                Console.WriteLine("Finally");
+            
+            }
+
+            
+            Parking parc = new Parking();
+
+            try
+            {
+                parc.garerVoiture(new Voiture());
+                parc.garerVoiture(new Voiture());
+                parc.garerVoiture(new Voiture());
+                parc.garerVoiture(new Voiture());
+                parc.garerVoiture(new Voiture());
+                parc.garerVoiture(new Voiture());
+            }
+            catch (Exception ex)
+            {
+
+                Console.WriteLine(ex.Message);
+            }
+            
+
+            Console.WriteLine();
+
+
+            #endregion
+
+            #region Les fichier
+
+            //DotNet fournis un certain nombre de classe qui permettent de manipuler les fichier
+            //On utilise des streams (flux): Canal intermediaire entre la source et la destination
+            //1-Charger le fichier dans le flux (en lecture ou ecriture)
+            //2-Effectuer les operation de lecture(ecriture)
+            //3-fermeture du flux
+            //2Typ de flux
+            //Flux caractères: Traitement des chaine de caractères, StreaReader - StreamWriter
+            //Flux Binaires: gestion des fichier binaires -BinaryFormatter
+            //D'autres classes sont fournies: File et FileInfo : Continnent pratiquement les même méthodes -
+            //FileInfo: Méthodes d'instance
+            //Pour les repertoire : Directory
+
+            //Créer un repertoire
+            //Directory.CreateDirectory("c:\\monDossier");
+
+            //ou
+
+            //Directory.CreateDirectory(@"c:\monDossier");
+
+
+            
+
+            Console.WriteLine("La suite de mon application");
+           string[] files=  Directory.GetFiles("c:\\monDossier");
+
+            foreach (var item in files)
+            {
+                Console.WriteLine(item);
+            }
+
+            //Récupère un ficher avec une extension précis
+
+            string[] filesJPG = Directory.GetFiles("c:\\monDossier", "*.jpg");
+
+            foreach (var item in filesJPG)
+            {
+                Console.WriteLine(item);
+            }
+
+            //Recuperer les fichier des sous repertoire
+
+            string[] filesSubRep = Directory.GetFiles("c:\\monDossier", "*.jpg", SearchOption.AllDirectories);
+            foreach (var item in filesSubRep)
+            {
+                Console.WriteLine(item);
+            }
+
+            //Supprimez les fichier de mon sous repertoire
+
+            string[] filesFindToDelete = Directory.GetFiles("c:\\monDossier");
+
+            Console.WriteLine("A trouver le dossieer" + filesFindToDelete);
+
+            foreach (var item in filesFindToDelete)
+            {
+                //File.Delete(item);
+            }
+
+            //Copie un fichier et le colle
+
+            //File.Copy(@"c:\monDossier\1.txt", @"c:\monDossier\5.txt");
+
+
+            //Lire les info d'un fichier 
+
+            FileInfo info= new FileInfo("c:\\monDossier\\1.txt");
+
+            string datedecreation = info.CreationTime.ToLongDateString();
+                Console.WriteLine( "Date de creation du fichier: " + datedecreation);
+
+            // Date de modification 
+
+            FileInfo info2 = new FileInfo("c:\\monDossier\\1.txt");
+            string modifDate = info.LastWriteTime.ToLongDateString();
+
+            //Dernier accès au fichier 
+            FileInfo info3 = new FileInfo("c:\\monDossier\\1.txt");
+            string dernierAccès = info.LastAccessTime.ToLongDateString();
+
+            //Recupérer l'extension d'un fichier 
+            FileInfo infos4 = new FileInfo("c:\\monDossier\\1.txt");
+            string extension = infos4.Extension.ToString();
+
+            //Lecture d'un fichier
+
+            StreamReader sr3 = new StreamReader("c:\\monDossier\\1.txt");
+
+            string contenuFichier = sr3.ReadToEnd();
+            Console.WriteLine(contenuFichier);
+            sr3.Close();
+
+
+            //Ecrire dans un fichier
+
+            StreamWriter ecr = new StreamWriter("c:\\monDossier\\4.txt", true);//True evite d'ecraser le fichier existant
+            ecr.WriteLine("LOL");
+            ecr.Close();
+
+            try
+            {
+                Tools.EcrireFile("c:\\monDossier\\4.txt", "blablabla+fdsfdsfdsfdsf");
+                string res = Tools.LireFile("c:\\monDossier\\4.txt");
+                Console.WriteLine("Toto" + res);
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            #endregion
+
+            #region Sérialisation
+
+            //Sérialisation : mecanisme qui permet de savegarder dans un fichier (.bin, XML) l'état d'un qui est en mémoire
+            //Concept très utilisé dans le cas des web service et des appliacation distribuées(réseaux)
+
+
+            List<CompteBancaire> listeCompte = new List<CompteBancaire>();
+
+            listeCompte.Add(new CompteBancaire(122336, 120)) ;
+            listeCompte.Add(new CompteBancaire(122336, 120));
+            listeCompte.Add(new CompteBancaire(122336, 120));
+            listeCompte.Add(new CompteBancaire(122336, 120));
+
+            //serialisation de la liste des compte
+            Tools.ExportBin("c:\\monDossier\\4.bin", listeCompte);
+
+            //désérialisation
+            try
+            {
+                List<CompteBancaire> listeCompte2 = Tools.ImportBin("c:\\monDossier\\4.bin");
+                foreach (var item in listeCompte2)
+                {
+                    Console.WriteLine(item);
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+            Console.WriteLine("---------------------------------------------------");
+            //Sérialization XML
+
+
+
+            Tools.ExportXML("c:\\monDossier\\4.xml", listeCompte);
+
+            try
+            {
+                List<CompteBancaire> listeCompte3 = Tools.ImportXml("c:\\monDossier\\4.xml");
+                foreach (var item in listeCompte3)
+                {
+                    Console.WriteLine(item);
+                }
+
+            }
+            catch (Exception e)
+            {
+
+                throw e;
+            }
+
+
+            //Export CSV
+
+            Tools.ExportCSV("c:\\monDossier\\4.csv", listeCompte);
+
+            //Tools.ImportCSV("c:\\monDossier\\4.csv");
+
+            Console.WriteLine("------------Import CSV ---------------------");
+
+
+            foreach (var item in Tools.ImportCSV("c:\\monDossier\\4.csv"))
+
+            {
+                Console.WriteLine(item);
+            }
+            #endregion
+
 
 
 

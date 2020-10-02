@@ -4,10 +4,10 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{17789F3F-5020-427B-9900-AB2EEB172C03}</ProjectGuid>
+    <ProjectGuid>{BB78E6AF-030F-4761-9F7D-FDD4CB14509E}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TP_POO</RootNamespace>
-    <AssemblyName>TP_POO</AssemblyName>
+    <RootNamespace>MethodeSortList</RootNamespace>
+    <AssemblyName>MethodeSortList</AssemblyName>
     <TargetFrameworkVersion>v4.7.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
@@ -43,17 +43,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ManutARisque.cs" />
-    <Compile Include="Personnel.cs" />
-    <Compile Include="Commercial.cs" />
-    <Compile Include="Default.cs" />
-    <Compile Include="Employe.cs" />
-    <Compile Include="Manutentionnaire.cs" />
-    <Compile Include="Representant.cs" />
-    <Compile Include="Producteur.cs" />
+    <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="TechARisque.cs" />
-    <Compile Include="Vendeur.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

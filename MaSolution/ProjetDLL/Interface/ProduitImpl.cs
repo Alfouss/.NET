@@ -4,8 +4,18 @@ using System.Text;
 
 namespace ProjetDLL.Interface
 {
-    public class ProduitImpl : MonInterface
+    public class ProduitImpl : MonInterface, MonInterface2
     {
+        public int somme()
+        {
+            throw new NotImplementedException();
+        }
+
+        public double somme2()
+        {
+            throw new NotImplementedException();
+        }
+
         int MonInterface.calcul()
         {
             throw new NotImplementedException();
